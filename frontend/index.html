@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Bucketeer</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><text y='20' font-size='20'>🪣</text></svg>" />
+    <link rel="stylesheet" href="/css/app.css" />
+  </head>
+  <body>
+    <div class="app" data-testid="app">
+      <header class="app-header" data-testid="header">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">🪣</span>
+          <span class="brand-name">Bucketeer</span>
+        </div>
+        <div class="header-search" data-testid="header-search"></div>
+        <div class="transfer-pill-mount" data-testid="transfer-pill"></div>
+        <div class="header-meta" data-testid="active-profile-pill"></div>
+      </header>
+
+      <aside class="sidebar" data-testid="sidebar"></aside>
+
+      <main class="main-pane" data-testid="main-pane">
+        <div class="breadcrumbs" data-testid="breadcrumbs"></div>
+        <div class="toolbar" data-testid="toolbar"></div>
+        <div class="table-wrap" data-testid="file-table"></div>
+      </main>
+
+      <div class="transfer-docks" data-testid="transfer-docks">
+        <div class="transfer-overview" data-testid="transfer-overview" hidden></div>
+        <div class="upload-dock" data-testid="download-manager" hidden></div>
+        <div class="upload-dock" data-testid="upload-manager" hidden></div>
+      </div>
+    </div>
+
+    <div class="toast-region" data-testid="toast-region" aria-live="polite" aria-atomic="false"></div>
+    <div class="modal-root" data-testid="modal-root"></div>
+    <div class="dropzone-overlay" data-testid="dropzone-overlay" hidden>
+      <div class="dropzone-card">
+        <div class="dropzone-icon" aria-hidden="true">⬆</div>
+        <p>Drop files to upload here</p>
+      </div>
+    </div>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "/vendor/three/three.module.js",
+          "three/addons/": "/vendor/three/addons/"
+        }
+      }
+    </script>
+    <script type="module" src="/js/main.js"></script>
+  </body>
+</html>

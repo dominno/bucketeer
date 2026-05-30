@@ -1,0 +1,38 @@
+name: Build desktop installers
+
+# Build the Mac .dmg and Windows .exe on native runners (a Windows .exe cannot
+# be reliably produced from macOS). Trigger manually or by pushing a v* tag.
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest
+            script: app:mac
+            artifact: mac-dmg
+            pattern: 'dist/*.dmg'
+          - os: windows-latest
+            script: app:win
+            artifact: windows-exe
+            pattern: 'dist/*.exe'
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npm run ${{ matrix.script }}
+        env:
+          # Unsigned build (no certs configured). Remove once signing is set up.
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: ${{ matrix.pattern }}

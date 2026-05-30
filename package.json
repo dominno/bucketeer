@@ -1,0 +1,83 @@
+{
+  "name": "bucketeer",
+  "version": "1.0.0",
+  "private": true,
+  "productName": "Bucketeer",
+  "description": "Bucketeer — a localhost browser for S3-compatible object storage (multi-bucket, multi-credential)",
+  "type": "module",
+  "main": "electron/main.js",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "node --watch backend/server.js",
+    "test:unit": "node --test tests/unit.test.js",
+    "test:integration": "node tests/integration.test.js",
+    "test:e2e": "playwright test",
+    "test": "node --test tests/unit.test.js && node tests/integration.test.js && playwright test",
+    "electron": "electron .",
+    "app:dir": "electron-builder --dir",
+    "app:mac": "electron-builder --mac",
+    "app:win": "electron-builder --win",
+    "app:build": "bash scripts/build-desktop.sh"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.600.0",
+    "@aws-sdk/lib-storage": "^3.600.0",
+    "@aws-sdk/s3-request-presigner": "^3.600.0",
+    "@smithy/node-http-handler": "^4.0.0",
+    "archiver": "^7.0.1",
+    "busboy": "^1.6.0",
+    "express": "^4.19.2",
+    "mime-types": "^2.1.35",
+    "archiver-utils": "^5.0.2",
+    "side-channel-list": "^1.0.1",
+    "side-channel-map": "^1.0.1",
+    "side-channel-weakmap": "^1.0.2"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.45.0",
+    "electron": "^33.4.11",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "app.bucketeer.browser",
+    "productName": "Bucketeer",
+    "asar": true,
+    "directories": { "output": "dist", "buildResources": "build" },
+    "files": [
+      "electron/**",
+      "backend/**",
+      "frontend/**",
+      "package.json",
+      "!config/**",
+      "!**/*Access-Keys*.txt",
+      "!.env",
+      "!tests/**",
+      "!test-results/**",
+      "!playwright-report/**",
+      "!playwright.config.js",
+      "!**/*.test.js",
+      "!**/*.spec.js",
+      "!**/*.log",
+      "!**/.DS_Store"
+    ],
+    "mac": {
+      "target": [{ "target": "dmg", "arch": ["universal"] }],
+      "category": "public.app-category.utilities",
+      "icon": "build/icon.png"
+    },
+    "win": {
+      "target": ["nsis"],
+      "icon": "build/icon.png"
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "runAfterFinish": true
+    }
+  }
+}
